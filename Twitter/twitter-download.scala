@@ -29,8 +29,6 @@ import spark.implicits._
 
 // Download tweets every 5 seconds, keep a window of 5 minutes, and slide the window every 5 seconds
 val batchInterval = Seconds(5)
-val windowLength = Minutes(5)
-val slideInterval = Seconds(5)
 // filter tweets with the following keywords
 val candidates = Seq("trump", "hillary", "obama")
 
@@ -98,6 +96,14 @@ ssc.getState
 // COMMAND ----------
 
 // ssc.stop(stopSparkContext = false)
+
+// COMMAND ----------
+
+// MAGIC %sql select count(*), max(time), min(time) from tweets
+
+// COMMAND ----------
+
+// MAGIC %sql select count(*), max(time), min(time) from votes
 
 // COMMAND ----------
 

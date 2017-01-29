@@ -180,23 +180,13 @@ name: title
 
 ### Manuel Walser, January 2017
 
-.footnote[Slide and Notebooks: https://github.com/higgser/databricks]
+.footnote[Slides:  https://higgser.github.io/databricks/  
+Code: https://github.com/higgser/databricks]
 
 ???
-* create table
-* when are dbfs files on machine deleted? how much space?
-* Experience from Spark Summit Europe 2016
+* Compile with: `markdown-to-slides -s Remark.css Databricks.md -o index.html`
 * Created with [remark.js](https://github.com/gnab/remark) and [Markdown to slides](https://github.com/partageit/markdown-to-slides)
-* Compile with: `markdown-to-slides -s Remark.css Databricks.md -o Databricks.html`
-
-- upload to github-pages
-- update screenshot
-- publish notebook?
-- install tensorflow libs
-- run examples tensorflow
-  - simple titanic/digit example
-  - simple countword mit java job in ide, run job in databricks
-  - twitter streaming example
+* Experience from Spark Summit Europe 2016
 
 ---
 name:overview
@@ -314,6 +304,10 @@ Videos
 name: questions
 ## Discussion, Q&A
 
+???
+- How much disk space?
+- When is data (e.g. /tmp/) deleted?
+
 ---
 ## Missing Features/Drawbacks/Bugs/...
 - Search and replace (requested), Code refactoring
@@ -323,13 +317,13 @@ name: questions
 - Deploy trained mode as WebService
 
 ---
-### Zeppelin Docker
+### Howto run Zeppelin with Docker
 Ubuntu Docker image (Ubuntu, Zeppelin 0.6.2, Spark 2.1.0, Scala 2.11)
 ```bash
 docker run -d -p 8080:8080 -p 7077:7077 -p 4040:4040 epahomov/docker-zeppelin
 ```
 
-### Jupiter Docker
+### Howto run Jupiter
 After installation with `pip3 install jupyter`
 ```bash
 jupyter notebook

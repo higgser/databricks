@@ -8,13 +8,13 @@
 // COMMAND ----------
 
 // Check the version of Spark
-if (org.apache.spark.SPARK_VERSION < "2.0") throw new Exception("Please use a Spark 2.x cluster.")
+if (org.apache.spark.SPARK_VERSION < "2.1") throw new Exception("Please use a Spark 2.x cluster.")
 
 // COMMAND ----------
 
 // MAGIC %md ### Import Twitter Streaming Utils 
 // MAGIC 
-// MAGIC The [Apache Bahir](https://github.com/apache/bahir) library implements a streaming source to easily download tweets from [Twitter](http://twitter.com). It is an Apache Spark wrapper around the common the Java library [Twitter4J](http://twitter4j.org/). To use it in this script, you first have to import in your workspace. Make a right click in your workspace folder and click on 'Create' and 'Library'. Select 'Maven coordinates' in the dropdown and copy and paste. the coordinates `org.apache.bahir:spark-streaming-twitter_2.11:2.0.1`. Alternatively you can open the Search Dialog and type 'bahir' in the search field.
+// MAGIC The [Apache Bahir](https://github.com/apache/bahir) library implements a streaming source to easily download tweets from [Twitter](http://twitter.com). It is an Apache Spark wrapper around the common the Java library [Twitter4J](http://twitter4j.org/). To use it in this script, you first have to import in your workspace. Make a right click in your workspace folder and click on 'Create' and 'Library'. Select 'Maven coordinates' in the dropdown and copy and paste. the coordinates `org.apache.bahir:spark-streaming-twitter_2.11:2.0.2`. Alternatively you can open the Search Dialog and type 'bahir' in the search field.
 
 // COMMAND ----------
 
@@ -46,6 +46,11 @@ val auth = twitterFactory.getInstance.getAuthorization
 // COMMAND ----------
 
 // dbutils.widgets.help()
+
+// COMMAND ----------
+
+// Is it possible to use a FilterQuery?
+val twitterFilter = new FilterQuery("trump", "hillary", "obama").language("en", "de", "fr")
 
 // COMMAND ----------
 
@@ -93,28 +98,32 @@ val candidates = Seq("trump", "hillary", "obama")
 // COMMAND ----------
 
 import java.sql.Timestamp
-case class Tweet(time: Timestamp, text: String, lang: String, user: String, isRetweet: Boolean, isRetweeted: Boolean, longitude: Double, latitude: Double)
 case class Vote(time: Timestamp, candidate: String, count: Integer)
+// case class Tweet(time: Timestamp, text: String, lang: String, user: String, isRetweet: Boolean, isRetweeted: Boolean, longitude: Double, latitude: Double)
 
 // COMMAND ----------
 
 val ssc = new StreamingContext(sc, batchInterval)
-val stream = TwitterUtils.createStream(ssc, Some(auth), candidates).filter(_.getCreatedAt != null).filter(s => Seq("en","de","fr").contains(s.getLang)).flatMap(s => Seq("trump","hillary","obama").filter(s.getText.toLowerCase.contains).map(candidate => ((s.getCreatedAt, candidate),1))).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval).map(s => Vote(new Timestamp(s._1._1.getTime), s._1._2, s._2))
-stream.foreachRDD { rdd => rdd.toDF("time", "candidate", "count").createOrReplaceTempView("candidate") }
+val stream = TwitterUtils.createStream(ssc, Some(auth), candidates).filter(_.getCreatedAt != null)
+  .filter(s => Seq("en","de","fr").contains(s.getLang))
+  .flatMap(s => Seq("trump","hillary","obama").filter(s.getText.toLowerCase.contains).map(candidate => ((s.getCreatedAt, candidate),1)))
+  .reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
+  .map(s => Vote(new Timestamp(s._1._1.getTime), s._1._2, s._2))
+stream.foreachRDD { rdd => rdd.toDF("time", "candidate", "count").createOrReplaceTempView("votes") }
 
 // COMMAND ----------
 
 ssc.start()
 ssc.getState
-Thread.sleep(5000)
+Thread.sleep(8000)
 
 // COMMAND ----------
 
-// MAGIC %sql select candidate, sum(count) as count from candidate group by candidate order by count desc
+// MAGIC %sql select candidate, sum(count) as count from votes group by candidate order by count desc
 
 // COMMAND ----------
 
-// MAGIC %sql select date_format(time, "HH:mm:ss") as time, candidate, count from candidate order by time, candidate
+// MAGIC %sql select date_format(time, "HH:mm:ss") as time, candidate, count from votes order by time, candidate
 
 // COMMAND ----------
 
@@ -123,5 +132,4 @@ Thread.sleep(5000)
 ssc.getState
 
 // COMMAND ----------
-
 

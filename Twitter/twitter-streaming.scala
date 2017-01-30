@@ -45,12 +45,7 @@ val auth = twitterFactory.getInstance.getAuthorization
 
 // COMMAND ----------
 
-dbutils.widgets.help()
-
-// COMMAND ----------
-
-// Is it possible to use a FilterQuery?
-val twitterFilter = new FilterQuery("trump", "hillary", "obama").language("en", "de", "fr")
+// dbutils.widgets.help()
 
 // COMMAND ----------
 
@@ -128,4 +123,5 @@ Thread.sleep(5000)
 ssc.getState
 
 // COMMAND ----------
+
 

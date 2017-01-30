@@ -9,18 +9,20 @@ Code: https://github.com/higgser/databricks]
 ???
 * Compile with: `markdown-to-slides -s Remark.css Databricks.md -o index.html`
 * Created with [remark.js](https://github.com/gnab/remark) and [Markdown to slides](https://github.com/partageit/markdown-to-slides)
-* Experience from Spark Summit Europe 2016
+* Experience from Spark Summit Europe 2016 (Twitter Workshop)
+* Press ? or H to see keyboard shortcuts
+* **Login and Start Cluster now**
 
 ---
 name:overview
 ## Databricks Overview
 * Managed Platform for running Apache Spark
   https://databricks.com/product/databricks
-* Making big data access easy (and accessible for everyone)
+* Making big data analytics easy (and accessible for everyone)
   https://databricks.com/try-databricks
-* Built-in Documentation and Examples
 * Pricing and Editions
   https://databricks.com/product/pricing
+* Built-in Documentation and Examples
 
 ![Databricks Stack](databricks-stack-diagram.png)
 
@@ -29,7 +31,8 @@ name:overview
 * Point&Click Platform for DS and DA
 * REST API to automate data workflows
 * Role-based access control and other intelligent optimizations
-* **Start Cluster now**
+* **Open Pricing and Feature Page**
+  *  AWS pricing starts at 0.33 USD/h On-Demand for 'r3.xlarge'
 
 ---
 name: demo
@@ -41,10 +44,11 @@ Community
 * Documentation
 * Dashboards
 * Libraries
-* Jobs Mgmt
-* User Mgmt
+* 3 Users
 
 Professional
+* Jobs Mgmt
+* Access Control
 * REST API
 * IDE Integration
 * GitHub
@@ -58,9 +62,8 @@ Professional
 * Notebooks: Files with Cells to execute commands
 * Dashboards: Styled and filtered notebook output (Cluster must be running)
 * Libraries: Files with additional functionality
-* Tables: Database Tables
-* Cluster: Groups of computers, Spark Web UI
-  Pricing starts with 'r3.xlarge' for (2x 0.33 USD/h On-Demand)
+* Tables: Database Tables (Cluster must be running)
+* Cluster: Group of nodes, Spark Web UI, Logs, Libraries  
 * Jobs: Schedule Notebooks/Jars, Notebook Workflows
 * Apps: Third Party Integration, e.g. Tableau
 * Menu-Bar, Search-Button
@@ -71,7 +74,7 @@ name: notebookFeatures
 .table.table-condensed.table-striped.table-hover[
 | Databricks | Zeppelin | Jupiter
 --- | --- | --- | ---
-Notebooks | .label.label-success[Yes] | .label.label-success[Yes] | .label.label-success[Yes]
+Notebook | .label.label-success[Yes] | .label.label-success[Yes] | .label.label-success[Yes]
 Autocompletion | .label.label-warning[Basic] | .label.label-warning[Basic] | .label.label-warning[Basic]
 Languages | .label.label-success[Spark] | .label.label-success[Polyglot] | .label.label-success[Polyglot]
 Playground | .label.label-success[Online] | .label.label-warning[Docker] | .label.label-success[No Spark]
@@ -88,13 +91,21 @@ Alternatives: [Beaker](http://beakernotebook.com/), [Spark-Notebook](http://spar
 ???
 * Create new Databricks and AWS Account (same AWS region, takes about 60 minutes)
 * Databricks Account is linked to Amazon Account, You are responsible for the AWS costs of clusters you create (Deploy to AWS using Cross Account Role or Access Key)
+* Open Databricks example notebook Spark for beginners
+* Create a notebook, Output Markdown, SparkSession `spark.version`
 * Start a Cluster, Show Link to Spark UI
-* Create a notebook, Output Markdown, SparkSession spark.version
-* Show Revision History, Git Integration, and Export Options
-* Open and Run simple Example, Show Execution Graph
+* Import a library named bahir
+* Import Twitter streaming notebook from Git https://github.com/higgser/databricks/blob/master/Twitter/twitter-streaming.scala
+* Run the whole notebook
+* Show Execution Graph for last plot
+* Modify plot and switch to table
 * Create Dashboard, Add Graphs
   https://dbc-a0e28f3c-9620.cloud.databricks.com/#notebook/258/dashboard/280/present
-
+* Open dashboard notebook
+* Show Tables with teets and votes
+* Show Revision History, Git Integration, and Export Options
+* Show User Management and Permissions
+* Show Documentation and search fields
 
 ---
 name: cloudFeatures
@@ -102,6 +113,7 @@ name: cloudFeatures
 .table.table-condensed.table-striped.table-hover[
 | Databricks | AWS/Zeppelin | AWS/JupiterHub
 --- | --- | ---
+Cluster Management | .label.label-success[Yes] | .label.label-warning[AWS] | .label.label-warning[AWS]
 Schedule Jobs | .label.label-success[Yes] | .label.label-danger[No] | .label.label-danger[No]
 Collaboration | .label.label-success[Yes] | .label.label-warning[Git] | .label.label-warning[Git]
 Security/Permissions | .label.label-success[Easy] | .label.label-danger[No] | .label.label-warning[Basic]
@@ -136,8 +148,9 @@ name: questions
 - Search and replace (requested), Code refactoring
 - Select, move, delete multiple cells
 - Auto-refresh plots with streaming data
-- Update Dashboard when widget changes
+- Update Dashboard on widget change
 - Deploy trained mode as WebService
+- Save/Export Dashboards
 
 ---
 ### Howto run Zeppelin with Docker

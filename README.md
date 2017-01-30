@@ -7,7 +7,7 @@ on the Github Pages of the repository.
 
 To run the examples you need to have a community or (or commercial) Databricks account. If you don't have an account, you can create one for free.
 
-* https://community.cloud.databricks.com
+* https://databricks.com/try-databricks
 
 ## Twitter Streaming example
 

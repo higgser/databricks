@@ -127,6 +127,15 @@ Thread.sleep(8000)
 
 // COMMAND ----------
 
+val votesDS = sqlContext.sql("SELECT * FROM votes").as[Vote]
+votesDS.write.mode(SaveMode.Overwrite).saveAsTable("lastvotes")
+
+// COMMAND ----------
+
+
+
+// COMMAND ----------
+
 // uncomment to stop stream
 // ssc.stop(false)
 ssc.getState
